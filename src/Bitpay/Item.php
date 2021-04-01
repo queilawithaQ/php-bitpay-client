@@ -6,10 +6,7 @@
 
 namespace Bitpay;
 
-use Bitpay\Client;
-
 /**
- *
  * @package Bitpay
  */
 class Item implements ItemInterface
@@ -44,8 +41,6 @@ class Item implements ItemInterface
      */
     protected $physical;
 
-    /**
-     */
     public function __construct()
     {
         $this->physical = false;
@@ -61,7 +56,6 @@ class Item implements ItemInterface
 
     /**
      * @param string $code
-     *
      * @return ItemInterface
      */
     public function setCode($code)
@@ -81,7 +75,6 @@ class Item implements ItemInterface
 
     /**
      * @param string $description
-     *
      * @return ItemInterface
      */
     public function setDescription($description)
@@ -93,8 +86,6 @@ class Item implements ItemInterface
 
     /**
      * @inheritdoc
-     *
-     * @return float
      */
     public function getPrice()
     {
@@ -113,8 +104,7 @@ class Item implements ItemInterface
 
     /**
      * @param mixed $price A float, integer, or en_US formatted numeric string
-     *
-     * @return ItemInterface
+     * @return Item
      */
     public function setPrice($price)
     {
@@ -148,8 +138,7 @@ class Item implements ItemInterface
 
     /**
      * @param integer $quantity
-     *
-     * @return ItemInterface
+     * @return Item
      */
     public function setQuantity($quantity)
     {
@@ -168,8 +157,7 @@ class Item implements ItemInterface
 
     /**
      * @param boolean $physical
-     *
-     * @return ItemInterface
+     * @return Item
      */
     public function setPhysical($physical)
     {

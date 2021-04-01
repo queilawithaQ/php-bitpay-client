@@ -26,6 +26,9 @@ after_script:
 notifications:
     email: false
 
+sudo:
+    false
+
 matrix:
     fast_finish: true
 

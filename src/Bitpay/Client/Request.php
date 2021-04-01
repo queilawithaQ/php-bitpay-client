@@ -1,6 +1,6 @@
 <?php
 /**
- * @license Copyright 2011-2014 BitPay Inc., MIT License 
+ * @license Copyright 2011-2015 BitPay Inc., MIT License
  * see https://github.com/bitpay/php-bitpay-client/blob/master/LICENSE
  */
 
@@ -44,8 +44,6 @@ class Request implements RequestInterface
      */
     protected $path;
 
-    /**
-     */
     public function __construct()
     {
         // Set some sane default headers
@@ -62,7 +60,7 @@ class Request implements RequestInterface
 
     /**
      * Converts this request into a standard HTTP/1.1 message to be sent over
-     * the wire
+     * the wire.
      *
      * @return string
      */
@@ -93,7 +91,7 @@ class Request implements RequestInterface
 
     /**
      * Set the method of the request, for known methods see the
-     * RequestInterface
+     * RequestInterface.
      *
      * @param string $method
      */
@@ -110,7 +108,7 @@ class Request implements RequestInterface
         return $this->uri;
     }
 
-        /**
+    /**
      * @inheritdoc
      */
     public function getFullUri()
@@ -130,6 +128,7 @@ class Request implements RequestInterface
     public function setUri($uri)
     {
         $this->uri = $uri;
+
         return $this;
     }
 
@@ -140,6 +139,7 @@ class Request implements RequestInterface
     {
         // remove invalid headers
         $headers = $this->headers;
+
         foreach ($headers as $header => $value) {
             if (empty($header) || empty($value)) {
                 unset($headers[$header]);
@@ -149,9 +149,13 @@ class Request implements RequestInterface
         return $headers;
     }
 
+    /**
+     * @return array
+     */
     public function getHeaderFields()
     {
         $fields = array();
+
         foreach ($this->getHeaders() as $header => $value) {
             $fields[] = sprintf('%s: %s', $header, $value);
         }
@@ -171,20 +175,22 @@ class Request implements RequestInterface
             $return .= sprintf("%s: %s\r\n", $h, $v);
         }
 
-        return $return."\r\n";
+        return $return . "\r\n";
     }
 
     /**
-     * Set a http header for the request
+     * Set a http header for the request.
      *
      * @param string $header
      * @param string $value
+     * @throws \Exception
      */
     public function setHeader($header, $value)
     {
         if (is_array($value)) {
-            throw new \Exception('Could not set the header: '.$header);
+            throw new \Exception('Could not set the header: ' . $header);
         }
+
         $this->headers[$header] = $value;
     }
 
@@ -197,9 +203,10 @@ class Request implements RequestInterface
     }
 
     /**
-     * The the body of the request
+     * Sets the body of the request.
      *
      * @param string $body
+     * @return Request
      */
     public function setBody($body)
     {
@@ -219,6 +226,7 @@ class Request implements RequestInterface
 
     /**
      * @param string $host
+     * @return Request
      */
     public function setPath($path)
     {

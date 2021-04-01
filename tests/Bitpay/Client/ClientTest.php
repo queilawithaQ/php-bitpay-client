@@ -1,6 +1,6 @@
 <?php
 /**
- * @license Copyright 2011-2014 BitPay Inc., MIT License
+ * @license Copyright 2011-2015 BitPay Inc., MIT License
  * see https://github.com/bitpay/php-bitpay-client/blob/master/LICENSE
  */
 
@@ -31,7 +31,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->client->setAdapter($adapter);
     }
 
-    public function testCheckPriceAndCurrency() {
+    public function testCheckPriceAndCurrency()
+    {
         $client = new ChildOfClient();
         $res = $client->checkPriceAndCurrency(.999999, 'BTC');
         $this->assertNull($res);
@@ -97,7 +98,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             ->setEffectiveDate("1415853007000")
             ->setPricingMethod('bitcoinbestbuy')
             ->setNotificationUrl('https://bitpay.com')
-            ->setNotificationEmail('support@bitpay.com')
+            ->setNotificationEmail('integrations@bitpay.com')
             ->setPricingMethod('bitcoinbestbuy')
             ->setReference('your reference, can be json')
             ->setAmount(5625)
@@ -107,6 +108,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             \Bitpay\PayoutInstruction::STATUS_UNPAID => null,
             \Bitpay\PayoutInstruction::STATUS_PAID => '0'
         );
+
         $instruction0 = new \Bitpay\PayoutInstruction();
         $instruction0
             ->setId('Sra19AFU57Rx53rKQbbRKZ')
@@ -158,7 +160,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('your reference, can be json', $payout->getReference());
         $this->assertEquals('1415853007000', $payout->getEffectiveDate());
         $this->assertEquals('https://bitpay.com', $payout->getNotificationUrl());
-        $this->assertEquals('support@bitpay.com', $payout->getNotificationEmail());
+        $this->assertEquals('integrations@bitpay.com', $payout->getNotificationEmail());
         $this->assertEquals('8mZ37Gt91Wr7GXGPnB9zj1zwTcLGweRDka4axVBPi9Uxiiv7zZWvEKSgmFddQZA1Jy', $payout->getResponseToken());
         $instructions = $payout->getInstructions();
         $this->assertSame($instruction0, $instructions[0]);
@@ -195,15 +197,24 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('abcdefghijkmnopqrstuvw', $invoice->getId());
         $this->assertEquals('https://test.bitpay.com/invoice?id=abcdefghijkmnopqrstuvw', $invoice->getUrl());
         $this->assertEquals('new', $invoice->getStatus());
-        //$this->assertEquals('0.0632', $invoice->getBtcPrice());
+        $this->assertEquals('0.0632', $invoice->getBtcPrice());
         $this->assertEquals(19.95, $invoice->getPrice());
+        $this->assertEquals(1412594514, $invoice->getInvoiceTime()->getTimestamp());
+        $this->assertEquals(1412595414, $invoice->getExpirationTime()->getTimestamp());
+        $this->assertEquals(1412594514, $invoice->getCurrentTime()->getTimestamp());
         $this->assertInstanceOf('DateTime', $invoice->getInvoiceTime());
         $this->assertInstanceOf('DateTime', $invoice->getExpirationTime());
         $this->assertInstanceOf('DateTime', $invoice->getCurrentTime());
-        //$this->assertEquals('0.0000', $invoice->getBtcPaid());
+        $this->assertEquals('0.0000', $invoice->getBtcPaid());
         $this->assertEquals(315.7, $invoice->getRate());
         $this->assertEquals(false, $invoice->getExceptionStatus());
         $this->assertEquals('abcdefghijklmno', $invoice->getToken()->getToken());
+        $this->assertEquals('bitcoin:mabcdefghijkmnopqrstuvw123456789AB?amount=0.0632', $invoice->getPaymentUrl(\BitPay\PaymentUrlSet::BIP_21));
+        //assert that invoice, expiration and currenttime are in the past
+        //meaning we didn't try to create date objects from unix timestamps including milliseconds
+        $this->assertLessThan(time(), $invoice->getInvoiceTime()->getTimestamp());
+        $this->assertLessThan(time(), $invoice->getExpirationTime()->getTimestamp());
+        $this->assertLessThan(time(), $invoice->getCurrentTime()->getTimestamp());
     }
 
     /**
@@ -331,7 +342,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $payouts = $this->client->getPayouts();
         $this->assertInternalType('array', $payouts);
         $this->assertInstanceOf('Bitpay\PayoutInterface', $payouts[0]);
-
     }
 
     /**
@@ -347,7 +357,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->client->setAdapter($adapter);
 
         $payouts = $this->client->getPayouts();
-
     }
 
     public function testGetTokens()
@@ -503,7 +512,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $payout = $this->client->getPayout('7m7hSF3ws1LhnWUf17CXsJ');
 
-
         // Test deletePayout
         $response = $this->getMockResponse();
         $response->method('getBody')->willReturn(file_get_contents(__DIR__ . '/../../DataFixtures/payouts/cancelled.json'));
@@ -513,7 +521,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $this->client->setAdapter($adapter);
 
         $payout = $this->client->deletePayout($payout);
-
         $this->assertSame($payout->getStatus(), \Bitpay\Payout::STATUS_CANCELLED);
     }
 
@@ -533,7 +540,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $payout = $this->client->getPayout('7m7hSF3ws1LhnWUf17CXsJ');
 
         // Test with exception
-
         $response = $this->getMockResponse();
         $response->method('getBody')->willReturn('{"error":"Object not found"}');
 
@@ -544,7 +550,6 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $payout = $this->client->deletePayout($payout);
         $this->assertSame($payout->getStatus(), \Bitpay\Payout::STATUS_CANCELLED);
     }
-
 
     private function getMockInvoice()
     {
@@ -557,10 +562,10 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                     'getExpirationTime', 'getCurrentTime', 'getOrderId', 'getItemDesc', 'getItemCode',
                     'isPhysical', 'getBuyerName', 'getBuyerAddress1', 'getBuyerAddress2', 'getBuyerCity',
                     'getBuyerState', 'getBuyerZip', 'getBuyerCountry', 'getBuyerEmail', 'getBuyerPhone',
-                    'getExceptionStatus', 'getBtcPaid', 'getRate', 'getToken', 'getRefundAddresses',
-                    'setId', 'setUrl', 'setStatus', 'setBtcPrice', 'setPrice', 'setInvoiceTime', 'setExpirationTime',
-                    'setCurrentTime', 'setBtcPaid', 'setRate', 'setToken', 'setExceptionStatus', 'isExtendedNotifications',
-                    'setPosData',
+                    'getExceptionStatus', 'getBtcPaid', 'getRate', 'getToken', 'setId', 'setUrl',
+                    'setStatus', 'setBtcPrice', 'setPrice', 'setInvoiceTime', 'setExpirationTime',
+                    'setCurrentTime', 'setBtcPaid', 'setRate', 'setToken', 'setExceptionStatus', 'getRefundAddresses',
+                    'getPaymentUrls', 'isExtendedNotifications', 'setPosData'
                 )
             )
             ->getMock();

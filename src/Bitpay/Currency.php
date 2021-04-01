@@ -1,12 +1,10 @@
 <?php
 /**
- * @license Copyright 2011-2014 BitPay Inc., MIT License
+ * @license Copyright 2011-2015 BitPay Inc., MIT License 
  * see https://github.com/bitpay/php-bitpay-client/blob/master/LICENSE
  */
 
 namespace Bitpay;
-
-use Bitpay\Client;
 
 /**
  * For the most part this should conform to ISO 4217

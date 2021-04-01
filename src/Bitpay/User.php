@@ -1,6 +1,6 @@
 <?php
 /**
- * @license Copyright 2011-2014 BitPay Inc., MIT License 
+ * @license Copyright 2011-2015 BitPay Inc., MIT License
  * see https://github.com/bitpay/php-bitpay-client/blob/master/LICENSE
  */
 
@@ -76,8 +76,7 @@ class User implements UserInterface
 
     /**
      * @param string $phone
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setPhone($phone)
     {
@@ -98,8 +97,7 @@ class User implements UserInterface
 
     /**
      * @param string $email
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setEmail($email)
     {
@@ -120,8 +118,7 @@ class User implements UserInterface
 
     /**
      * @param string $firstName
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setFirstName($firstName)
     {
@@ -142,8 +139,7 @@ class User implements UserInterface
 
     /**
      * @param string $lastName
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setLastName($lastName)
     {
@@ -164,8 +160,7 @@ class User implements UserInterface
 
     /**
      * @param array $address
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setAddress(array $address)
     {
@@ -186,8 +181,7 @@ class User implements UserInterface
 
     /**
      * @param string $city
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setCity($city)
     {
@@ -208,8 +202,7 @@ class User implements UserInterface
 
     /**
      * @param string $state
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setState($state)
     {
@@ -230,8 +223,7 @@ class User implements UserInterface
 
     /**
      * @param string $zip
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setZip($zip)
     {
@@ -252,8 +244,7 @@ class User implements UserInterface
 
     /**
      * @param string $country
-     *
-     * @return UserInterface
+     * @return User
      */
     public function setCountry($country)
     {
@@ -266,7 +257,6 @@ class User implements UserInterface
 
     /**
      * @param bool $boolvalue
-     *
      * @return User
      */
     public function setAgreedToTOSandPP($boolvalue)
@@ -277,6 +267,7 @@ class User implements UserInterface
 
         return $this;
     }
+
     /**
      * @return bool
      */

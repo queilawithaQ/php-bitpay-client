@@ -8,11 +8,10 @@ bitpay/php-bitpay-client
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/bitpay/php-bitpay-client.svg?style=flat-square)](https://scrutinizer-ci.com/g/bitpay/php-bitpay-client/)
 [![Coveralls](https://img.shields.io/coveralls/bitpay/php-bitpay-client.svg?style=flat-square)](https://coveralls.io/r/bitpay/php-bitpay-client)
 
-[![Documentation Status](https://readthedocs.org/projects/php-bitpay-client/badge/?version=latest)](https://readthedocs.org/projects/php-bitpay-client/?badge=latest)
 [![Total Downloads](https://poser.pugx.org/bitpay/php-client/downloads.svg)](https://packagist.org/packages/bitpay/php-client)
 [![Latest Unstable Version](https://poser.pugx.org/bitpay/php-client/v/unstable.svg)](https://packagist.org/packages/bitpay/php-client)
 
-This is a self-contained PHP implementation of BitPay's new cryptographically secure API: https://bitpay.com/api
+This is a self-contained PHP implementation of BitPay's cryptographically secure API: https://bitpay.com/api
 
 # Installation
 
@@ -33,15 +32,8 @@ Add to your composer.json file by hand.
     ...
     "require": {
         ...
-        "bitpay/php-client": "dev-master"
-    },
-    "repositories": [
-        ...
-        {
-            "type": "vcs",
-            "url": "https://github.com/btcpayserver/php-bitpay-client"
-        }
-    ],
+        "bitpay/php-client": "^3.0"
+    }
     ...
 }
 ```
@@ -63,24 +55,6 @@ php composer.phar require bitpay/php-client:~2.2
 See https://support.bitpay.com/hc/en-us/articles/115003001063-How-do-I-configure-the-PHP-BitPay-Client-Library-
 
 # Usage
-
-## Autoloader
-
-To use the library's autoloader (which doesn't include composer dependencies)
-instead of composer's autoloader, use the following code:
-
-```php
-<?php
-$autoloader = __DIR__ . '/relative/path/to/Bitpay/Autoloader.php';
-if (true === file_exists($autoloader) &&
-    true === is_readable($autoloader))
-{
-    require_once $autoloader;
-    \Bitpay\Autoloader::register();
-} else {
-    throw new Exception('BitPay Library could not be loaded');
-}
-```
 
 ## Documentation
 

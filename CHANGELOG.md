@@ -83,6 +83,25 @@ Included buyer notify field (when creating an invoice)
 - HTTP 100 messages not parsed correctly when doing payouts
 
 ## [Unreleased][unreleased]
+## [3.0.0] - 2016-03-10
+###Fixed
+- should respect that numbers coming from the api might not have decimal points at all, but they are still valid
+- Bug fixes that include proper type checking for invoice object creation
+- Fixed invoice, expiration, and current time error
+- Repaired tests based on current changes to the code.
+
+###Added
+- Using this library with Symfony >=2.3 or Symfony 3.0.x should work. So if you are already using Symfony 3.0, then this library should work with it too.
+- Leo Hochberg added PaymentUrl support to the library since the BitPay backend support it. Thanks Leo.
+
+## [2.2.7] - 2015-10-28
+###Fixed
+- btcPaid on invoice responses now contains the amount paid instead of the price
+
+## [2.2.6] - 2015-07-31
+###Fixed
+- The fixes several issues, including "Price only accepts .00 precision" and "Invoice exception state"
+
 ### Changed
 - Refactored function calls out of loops
 

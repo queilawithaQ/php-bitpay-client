@@ -1,6 +1,6 @@
 <?php
 /**
- * @license Copyright 2011-2014 BitPay Inc., MIT License
+ * @license Copyright 2011-2015 BitPay Inc., MIT License
  * see https://github.com/bitpay/php-bitpay-client/blob/master/LICENSE
  */
 
@@ -9,15 +9,13 @@ namespace Bitpay\Math;
 class BcEngineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @requires  extension gmp
      * @requires  extension bcmath
      */
     protected function setUp()
     {
-      if (!extension_loaded('bcmath'))
-      {
-        $this->markTestSkipped('The Bcmath extension is NOT loaded! You must enable it to run this test');
-      }
+        if (!extension_loaded('bcmath')) {
+            $this->markTestSkipped('The Bcmath extension is NOT loaded! You must enable it to run this test');
+        }
     }
 
     public function testConstruct()
@@ -77,7 +75,6 @@ class BcEngineTest extends \PHPUnit_Framework_TestCase
         $a = 1234;
         $b = '1234123412341234123412341234123412412341234213412421341342342';
         $c = '0x1234123412341234123412341234123412412341234213412421341342342';
-        
         
         $this->assertEquals(0, $math->invertm($a, $a));
         $this->assertEquals(0, $math->invertm($b, $b));
@@ -179,7 +176,8 @@ class BcEngineTest extends \PHPUnit_Framework_TestCase
         );
 
         $math = new BcEngine();
-        for($i = 0, $size = count($inputs); $i < $size; $i++) {
+
+        for ($i = 0, $size = count($inputs); $i < $size; $i++) {
             $this->assertEquals($outputs[$i], $math->input($inputs[$i]));
         }
     }
@@ -219,5 +217,4 @@ class BcEngineTest extends \PHPUnit_Framework_TestCase
         $math = new BcEngine();
         $this->assertTrue($math->coprime($a, $b));
     }
-
 }

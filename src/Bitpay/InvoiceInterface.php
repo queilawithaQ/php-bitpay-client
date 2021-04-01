@@ -1,14 +1,12 @@
 <?php
 /**
- * @license Copyright 2011-2014 BitPay Inc., MIT License
+ * @license Copyright 2011-2015 BitPay Inc., MIT License
  * see https://github.com/bitpay/php-bitpay-client/blob/master/LICENSE
  */
 
 namespace Bitpay;
 
 /**
- * Invoice
- *
  * @package Bitpay
  */
 interface InvoiceInterface
@@ -80,7 +78,7 @@ interface InvoiceInterface
      * specified in a currency other than BTC, the price will be converted into BTC at
      * market exchange rates to determine the amount collected from the buyer.
      *
-     * @return string
+     * @return float
      */
     public function getPrice();
 
@@ -96,6 +94,10 @@ interface InvoiceInterface
     public function getCurrency();
 
     /**
+     * If there is not an item already set, we need to use a default item
+     * so that some methods do not throw errors about methods and
+     * non-objects.
+     *
      * @return ItemInterface
      */
     public function getItem();
@@ -204,7 +206,7 @@ interface InvoiceInterface
      * The amount of bitcoins being requested for payment of this invoice (same as the
      * price if the merchant set the price in BTC).
      *
-     * @return string
+     * @return float
      */
     public function getBtcPrice();
 
@@ -353,18 +355,22 @@ interface InvoiceInterface
     public function getBuyerPhone();
 
     /**
+     * Returns exception status.
      */
     public function getExceptionStatus();
 
     /**
+     * Returns the amount of BTC paid.
      */
     public function getBtcPaid();
 
     /**
+     * Returns the exchange rate.
      */
     public function getRate();
 
     /**
+     * Returns the token for this resource.
      */
     public function getToken();
 
@@ -381,20 +387,9 @@ interface InvoiceInterface
     public function getRefundAddresses();
 
     /**
-     * Get the enforced transaction currencies.
+     * Returns a set of payment urls.
      *
-     * @return array|null
+     * @return PaymentUrlInterface
      */
-    public function getPaymentCurrencies();
-
-    /**
-     * Set specific invoice currencies and to enforce them on payment step.
-     *
-     * @param array $paymentCurrencies
-     *   The currencies need to match what is supported by BTCPay Server.
-     *   E.g. BTC, BTC_ONCHAIN, BTC_OFFCHAIN, LTC, XMR_MONEROLIKE etc.
-     *
-     * @return InvoiceInterface
-     */
-    public function setPaymentCurrencies($paymentCurrencies);
+    public function getPaymentUrls();
 }
